@@ -1,3 +1,5 @@
-# USAGE
+﻿# USAGE
 ## require python2.7+
-python ./jayb/jayb.py encode/decode password
+cd ./jayb
+
+python jayb.py encode/decode password

@@ -67,8 +67,12 @@ def encryption(operation,filePath,passwd):
     updateFile(operation, filePath)
 def decryption(operation,filePath,passwd):
     decryption_cmd="openssl enc -d -des3 -a -salt -k {passwd} -in {filePath} -out {filePath}.rec".format(**locals())
-    subprocess.call(decryption_cmd,shell=True)
-    updateFile(operation, filePath)
+    if not subprocess.call(decryption_cmd,shell=True):
+        updateFile(operation, filePath)
+    else:
+        os.remove(filePath+".rec")
+        print("Wrong Password, Try Another One! ")
+        sys.exit(1)
 def updateFile(operation,filePath):
     if operation=="decode":
         os.remove(filePath)
@@ -95,4 +99,3 @@ if __name__ == "__main__":
         usage()
         sys.exit(1)
     operate(operation, fileList(), passwd)
-    

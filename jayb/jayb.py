@@ -14,14 +14,14 @@ import sys
 import os
 import subprocess
 
-statusFile = "repository_status"
+statusFile = "jayb/repository_status"
 
 def usage():
     print("""
     Usage Like This: {} encode/decode keyword
     """.format(sys.argv[0].split("/")[-1]))
 
-def fileList(dirRoot="..",ignorefileordirlist=["README.md","jayb",".git"]):
+def fileList(dirRoot=".",ignorefileordirlist=["README.md","jayb",".git"]):
     filelist=[]
     for pathContext in os.walk(dirRoot):
         if len(pathContext[2]) is not 0:

@@ -25,8 +25,8 @@ def fileList(dirRoot=".",ignorefileordirlist=["README.md","jayb",".git"]):
     filelist=[]
     for pathContext in os.walk(dirRoot):
         if len(pathContext[2]) is not 0:
-            for file in pathContext[2]:
-                filelist.append(pathContext[0]+os.sep+file)
+            for filename in pathContext[2]:
+                filelist.append(pathContext[0]+os.sep+filename)
     return(segmentation(filelist,[dirRoot+os.sep+path for path in ignorefileordirlist]))
     
 def segmentation(fileList,filesOrDirs):

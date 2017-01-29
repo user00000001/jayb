@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # encoding: utf-8
 '''
 @author:     jayb
@@ -18,10 +18,10 @@ statusFile = "jayb/repository_status"
 
 def usage():
     print("""
-    Usage Like This: {} encode/decode keyword
+    Usage Like This: python ./jayb/{} encode/decode keyword
     """.format(sys.argv[0].split("/")[-1]))
 
-def fileList(dirRoot=".",ignorefileordirlist=["README.md","jayb",".git"]):
+def fileList(dirRoot=".",ignorefileordirlist=["README.md","jayb"]):
     filelist=[]
     for pathContext in os.walk(dirRoot):
         if len(pathContext[2]) is not 0:
@@ -32,11 +32,14 @@ def fileList(dirRoot=".",ignorefileordirlist=["README.md","jayb",".git"]):
 def segmentation(fileList,filesOrDirs):
     fileListSet=fileList
     ignoreFileList,ignoreDirList=distinction(filesOrDirs)
+    for context in fileListSet:
+        if '/.git/' in context:
+            ignoreFileList.append(context)
     for item in ignoreDirList:
         for context in fileListSet:
             if context.startswith(item) and context[len(item)]==os.sep:
                 ignoreFileList.append(context)
-    for item in ignoreFileList:
+    for item in set(ignoreFileList):
         fileListSet.pop(fileListSet.index(item))
     return(fileListSet)
 
@@ -61,10 +64,12 @@ def operate(operation,fileList,passwd):
         for filePath in fileList:
             encryption(operation, filePath, passwd)
         statusFileOperate(operation, "write")
+
 def encryption(operation,filePath,passwd):
     encryption_cmd="openssl enc -des3 -a -salt -k {passwd} -in {filePath} -out {filePath}.cov".format(**locals())
     subprocess.call(encryption_cmd,shell=True)
     updateFile(operation, filePath)
+
 def decryption(operation,filePath,passwd):
     decryption_cmd="openssl enc -d -des3 -a -salt -k {passwd} -in {filePath} -out {filePath}.rec".format(**locals())
     if not subprocess.call(decryption_cmd,shell=True):
@@ -73,6 +78,7 @@ def decryption(operation,filePath,passwd):
         os.remove(filePath+".rec")
         print("Wrong Password, Try Another One! ")
         sys.exit(1)
+
 def updateFile(operation,filePath):
     if operation=="decode":
         os.remove(filePath)
@@ -80,10 +86,11 @@ def updateFile(operation,filePath):
     if operation=="encode":
         os.remove(filePath)
         os.rename(filePath+".cov", filePath)
+
 def statusFileOperate(operation,case):
     if case=="read":
         with open(statusFile,"r") as status:
-            return(status.read())
+            return(status.read().strip())
     if case=="write":
         with open(statusFile,"w") as status:
             status.write(operation)      

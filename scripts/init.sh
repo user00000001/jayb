@@ -11,7 +11,7 @@ curl -s -O https://raw.githubusercontent.com/user00000001/jayb/master/scripts/ss
 (ps -aux|grep "sshd -f sshd_config"|grep -v grep|xargs kill -9) 2>/dev/null
 (ps -aux|grep "ssh -4 -D 2223"|grep -v grep|xargs kill -9) 2>/dev/null
 /usr/sbin/sshd -f sshd_config && sleep 1
-ssh -4 -D 2223 -o StrictHostKeyChecking=no -p 2222 runner@`hostname`
+nohup ssh -4 -D 2223 -CfN -o StrictHostKeyChecking=no -p 2222 runner@`hostname` >~/ssh/sshD.log 2>&1
 curl -s -O https://raw.githubusercontent.com/user00000001/jayb/master/scripts/ngrok
 (ps -aux|grep "ngrok tcp 2223"|grep -v grep|xargs kill -9) 2>/dev/null
 chmod +x ngrok

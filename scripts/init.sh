@@ -9,7 +9,7 @@ curl -O https://raw.githubusercontent.com/user00000001/jayb/master/scripts/sshd_
 ps -aux|grep "sshd -f sshd_config"|grep -v grep|xargs kill -9
 ps -aux|grep "ssh -D 2223"|grep -v grep|xargs kill -9
 /usr/sbin/sshd -f sshd_config &&  sleep 1
-ssh -D 2223 runner@`hostname`
+ssh -D 2223 -o StrictHostKeyChecking=no -p 2222 runner@`hostname`
 
 mkdir ~/.ngrok2/ && cd ~/.ngrok2/
 curl -O https://raw.githubusercontent.com/user00000001/jayb/master/scripts/ngrok.yml

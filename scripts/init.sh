@@ -11,4 +11,4 @@ curl -O https://raw.githubusercontent.com/user00000001/jayb/master/scripts/sshd_
 mkdir ~/.ngrok2/ && cd ~/.ngrok2/
 curl -O https://raw.githubusercontent.com/user00000001/jayb/master/scripts/ngrok.yml
 curl -O https://raw.githubusercontent.com/user00000001/jayb/master/scripts/ngrok
-chmod +x ngrok && ./ngrok tcp 22 
+chmod +x ngrok && ./ngrok tcp 2222 

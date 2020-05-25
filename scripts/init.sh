@@ -15,5 +15,5 @@ nohup ssh -4 -D 2223 -CfN -o StrictHostKeyChecking=no -p 2222 runner@`hostname` 
 curl -s -O https://raw.githubusercontent.com/user00000001/jayb/master/scripts/ngrok
 (ps -aux|grep "ngrok tcp 2223"|grep -v grep|xargs kill -9) 2>/dev/null
 chmod +x ngrok
-#./ngrok authtoken $1
-#./ngrok tcp 2223 
+./ngrok authtoken $ngrok_token
+./ngrok tcp 2223 &
